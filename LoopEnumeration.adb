@@ -16,3 +16,17 @@ begin
    end loop;
    
 end Main;
+
+--  RED
+--  ORANGE
+--  YELLOW
+--  GREEN
+--  BLUE
+--  VIOLET
+--  
+--  RED
+--  ORANGE
+--  YELLOW
+--  GREEN
+--  BLUE
+--  VIOLET
