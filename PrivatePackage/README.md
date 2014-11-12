@@ -16,3 +16,11 @@ package Parent.Child is
    --declarations
 end Parent.Child;
 ```
+
+## Build
+
+```
+gprbuild -P test1.gpr
+gprbuild -P test2.gpr
+gprbuild -P test3.gpr
+```
