@@ -7,3 +7,6 @@
 *.bexch
 *.bat
 *.cgpr
+*.lexch
+*.db
+*.xml
