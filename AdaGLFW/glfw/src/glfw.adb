@@ -2,7 +2,6 @@ with GLFW;
 with GLFW.API;
 with Interfaces.C;
 
-
 package body GLFW is
 
    -- http://www.adahome.com/FAQ/programming.html
@@ -35,7 +34,6 @@ package body GLFW is
       return Window(CWindow);
    end CreateWindow;
 
-
    procedure PollEvents is
    begin
       API.glfwPollEvents;
@@ -48,6 +46,5 @@ package body GLFW is
    begin
       return CFlag = 1;
    end WindowShouldClose;
-
 
 end Glfw;
