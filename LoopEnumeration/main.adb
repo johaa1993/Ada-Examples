@@ -1,8 +1,9 @@
 with Ada.Text_IO;
+
 procedure Main is
 
    type Color is (Red, Orange, Yellow, Green, Blue, Violet);
-   
+
 begin
 
    for I in Color loop
@@ -16,17 +17,3 @@ begin
    end loop;
    
 end Main;
-
---  RED
---  ORANGE
---  YELLOW
---  GREEN
---  BLUE
---  VIOLET
---  
---  RED
---  ORANGE
---  YELLOW
---  GREEN
---  BLUE
---  VIOLET

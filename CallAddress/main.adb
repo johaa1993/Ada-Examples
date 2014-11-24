@@ -2,7 +2,7 @@ with Ada.Text_IO;
 with System;
 with System.Address_Image;
 
-procedure test is
+procedure Main is
 
    procedure House with Convention => C;
    procedure House is
@@ -19,4 +19,4 @@ procedure test is
 begin
    Ada.Text_IO.Put_Line( System.Address_Image(House'Address) );
    ExecuteProcedureAddress( House'Address );
-end test;
+end Main;
