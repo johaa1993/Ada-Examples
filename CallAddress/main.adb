@@ -4,14 +4,14 @@ with System.Address_Image;
 
 procedure Main is
 
-   procedure House with Convention => C;
+   procedure House with Convention => Ada;
    procedure House is
    begin
       Ada.Text_IO.Put_Line( "Ding Dong" );
    end House;
 
    procedure ExecuteProcedureAddress( TheAddress : System.Address ) is
-      procedure TheProcedure with Import, Convention => C, Address => TheAddress;
+      procedure TheProcedure with Import, Convention => Ada, Address => TheAddress;
    begin
       TheProcedure;
    end ExecuteProcedureAddress;
