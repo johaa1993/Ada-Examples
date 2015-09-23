@@ -1,0 +1,60 @@
+with Ada.Unchecked_Conversion;
+
+procedure GL.Init ( Load : access function (Name : String) return Address ) is
+   function Convert is new Unchecked_Conversion (Address, Access_glCreateProgram);
+   function Convert is new Unchecked_Conversion (Address, Access_glCreateShader);
+   function Convert is new Unchecked_Conversion (Address, Access_glAttachShader);
+   function Convert is new Unchecked_Conversion (Address, Access_glLinkProgram);
+   function Convert is new Unchecked_Conversion (Address, Access_glCompileShader);
+   function Convert is new Unchecked_Conversion (Address, Access_glShaderSource);
+   function Convert is new Unchecked_Conversion (Address, Access_glGetShaderInfoLog);
+   function Convert is new Unchecked_Conversion (Address, Access_glGetShaderiv);
+   function Convert is new Unchecked_Conversion (Address, Access_glGetProgramInfoLog);
+   function Convert is new Unchecked_Conversion (Address, Access_glGetProgramiv);
+   function Convert is new Unchecked_Conversion (Address, Access_glUniformMatrix4fv);
+   function Convert is new Unchecked_Conversion (Address, Access_glGetUniformLocation);
+   function Convert is new Unchecked_Conversion (Address, Access_glGenVertexArrays);
+   function Convert is new Unchecked_Conversion (Address, Access_glGenBuffers);
+   function Convert is new Unchecked_Conversion (Address, Access_glBindVertexArray);
+   function Convert is new Unchecked_Conversion (Address, Access_glBindBuffer);
+   function Convert is new Unchecked_Conversion (Address, Access_glBufferData);
+   function Convert is new Unchecked_Conversion (Address, Access_glVertexAttribPointer);
+   function Convert is new Unchecked_Conversion (Address, Access_glEnableVertexAttribArray);
+   function Convert is new Unchecked_Conversion (Address, Access_glUseProgram);
+   function Convert is new Unchecked_Conversion (Address, Access_glIsShader);
+   function Convert is new Unchecked_Conversion (Address, Access_glIsProgram);
+   function Convert is new Unchecked_Conversion (Address, Access_glIsBuffer);
+   function Convert is new Unchecked_Conversion (Address, Access_glIsVertexArray);
+   function Convert is new Unchecked_Conversion (Address, Access_glGetAttribLocation);
+   function Convert is new Unchecked_Conversion (Address, Access_glVertexArrayAttribFormat);
+   function Convert is new Unchecked_Conversion (Address, Access_glBufferSubData);
+
+
+begin
+   GL.glCreateProgram           := Convert (Load ("glCreateProgram"));
+   GL.glCreateShader            := Convert (Load ("glCreateShader"));
+   GL.glAttachShader            := Convert (Load ("glAttachShader"));
+   GL.glLinkProgram             := Convert (Load ("glLinkProgram"));
+   GL.glCompileShader           := Convert (Load ("glCompileShader"));
+   GL.glShaderSource            := Convert (Load ("glShaderSource"));
+   GL.glGetShaderInfoLog        := Convert (Load ("glGetShaderInfoLog"));
+   GL.glGetShaderiv             := Convert (Load ("glGetShaderiv"));
+   GL.glGetProgramInfoLog       := Convert (Load ("glGetProgramInfoLog"));
+   GL.glGetProgramiv            := Convert (Load ("glGetProgramiv"));
+   GL.glUniformMatrix4fv        := Convert (Load ("glUniformMatrix4fv"));
+   GL.glGetUniformLocation      := Convert (Load ("glGetUniformLocation"));
+   GL.glGenVertexArrays         := Convert (Load ("glGenVertexArrays"));
+   GL.glGenBuffers              := Convert (Load ("glGenBuffers"));
+   GL.glBindVertexArray         := Convert (Load ("glBindVertexArray"));
+   GL.glBindBuffer              := Convert (Load ("glBindBuffer"));
+   GL.glBufferData              := Convert (Load ("glBufferData"));
+   GL.glBufferSubData           := Convert (Load ("glBufferSubData"));
+   GL.glVertexAttribPointer     := Convert (Load ("glVertexAttribPointer"));
+   GL.glEnableVertexAttribArray := Convert (Load ("glEnableVertexAttribArray"));
+   GL.glUseProgram              := Convert (Load ("glUseProgram"));
+   GL.glIsShader                := Convert (Load ("glIsShader"));
+   GL.glIsProgram               := Convert (Load ("glIsProgram"));
+   GL.glIsBuffer                := Convert (Load ("glIsBuffer"));
+   GL.glIsVertexArray           := Convert (Load ("glIsVertexArray"));
+   GL.glGetAttribLocation       := Convert (Load ("glGetAttribLocation"));
+end;
