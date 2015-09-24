@@ -1,0 +1,14 @@
+#version 330
+
+layout(location = 0) in vec4 vposition;
+layout(location = 1) in vec4 vcolor;
+layout(location = 2) in vec2 TexCoord;
+
+
+out vec2 UV;
+
+void main()
+{
+	gl_Position = vposition;
+	UV = TexCoord;
+}
