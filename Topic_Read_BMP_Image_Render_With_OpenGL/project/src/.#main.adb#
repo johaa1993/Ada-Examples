@@ -103,7 +103,6 @@ procedure Main is
          glDrawArrays (GL_TRIANGLES, 0, 6);
          glfwSwapBuffers (Window);
          delay 0.1;
-
          exit when glfwWindowShouldClose (Window) = 1;
       end loop;
    end;
