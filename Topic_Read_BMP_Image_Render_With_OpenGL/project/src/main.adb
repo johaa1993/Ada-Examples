@@ -52,7 +52,6 @@ procedure Main is
       File : File_Type;
       Streamer : Stream_Access;
       Bitmap : Bitmap_Header;
-
    begin
       Open (File, In_File, Name);
       Streamer := Stream (File);
@@ -103,7 +102,6 @@ procedure Main is
          glDrawArrays (GL_TRIANGLES, 0, 6);
          glfwSwapBuffers (Window);
          delay 0.1;
-
          exit when glfwWindowShouldClose (Window) = 1;
       end loop;
    end;
