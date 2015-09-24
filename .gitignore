@@ -14,3 +14,4 @@
 *.db-wal
 *.db-shm
 *.#*
+*.xml
