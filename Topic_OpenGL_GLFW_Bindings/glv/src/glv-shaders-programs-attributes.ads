@@ -3,7 +3,9 @@ with System; use System;
 package GLV.Shaders.Programs.Attributes is
 
    type Component is (Float_Component);
+
    subtype Dimension is GLint range 1 .. 4;
+
    type Attribute is limited private;
 
    function Count (Item : Program) return Natural;
@@ -17,9 +19,10 @@ package GLV.Shaders.Programs.Attributes is
 
 private
 
-
    for Component use (Float_Component => GL_FLOAT);
+
    for Component'Size use GLenum'Size;
-   type Attribute is new GLuint range 0 .. GLuint'Last;
+
+   type Attribute is new GLuint range 0 .. GL_MAX_UNIFORM_LOCATIONS;
 
 end;

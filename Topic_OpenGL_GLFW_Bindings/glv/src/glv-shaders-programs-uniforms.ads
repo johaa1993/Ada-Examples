@@ -8,7 +8,7 @@ package GLV.Shaders.Programs.Uniforms is
    --They are stored in a program object.
    --Uniforms are so named because they do not change from one execution of a shader program to the next within a particular rendering call.
    --This makes them unlike shader stage inputs and outputs, which are often different for each invocation of a program stage.
-   type Uniform (<>) is limited private;
+   type Uniform is private;
 
 
    --Returns the corresponding uniform of the current program object.

@@ -1,34 +1,28 @@
-with Ada.Exceptions;
 with Ada.Text_IO;
 with Ada.Integer_Text_IO;
 with Ada.Strings.Fixed;
 with Ada.Float_Text_IO;
-with Interfaces.C.Strings;
-with Interfaces.C;
-with System; use System;
-with System.Address_Image;
-
-with GL;
-with GL.Init;
-with GLFW;
-with Interfaces;
 with Ada.Streams.Stream_IO;
 with Ada.Directories;
 with Ada.Direct_IO;
 
+with System;
+with System.Address_Image;
+
+with Interfaces;
+with Interfaces.C;
+with Interfaces.C.Strings;
+
+with GL;
+with GL.Init;
+with GLFW;
+
 with Bitmaps;
 with Bitmaps.Put_Image;
 
-with GLT.Shaders.Programs.Attributes;
-with GLT.Shaders.Programs;
-with GLT.Shaders;
-with GLT.Buffers;
-with GLT.Vertex_Arrays;
-
 use GL;
 use GLFW;
-use Interfaces.C.Strings;
-use Ada.Exceptions;
+use System;
 
 procedure Main is
 
@@ -85,6 +79,7 @@ procedure Main is
       Title : char_array := "Hello";
       glfwInit_Result : int;
    begin
+      Put_Line ("Start_Window");
       glfwInit_Result := glfwInit;
       Window := glfwCreateWindow (200, 200, Title);
       glfwMakeContextCurrent (Window);
@@ -109,9 +104,6 @@ procedure Main is
 
 
    procedure Setup_Vertices is
-      use GLT.Vertex_Arrays;
-      use GLT.Shaders.Programs.Attributes;
-      use GLT.Buffers;
       use type GLfloat;
       use type GLsizeiptr;
       use type GLsizei;
@@ -126,8 +118,7 @@ procedure Main is
          -1.0, +1.0, 0.0,     0.0, 0.0, 0.0,   0.0, 1.0
         );
    begin
-      Allocate (Array_Buffer_Target, Vertices'Size / Storage_Unit, Static_Draw_Mode);
-      Write (Array_Buffer_Target, 0, Vertices'Size / Storage_Unit, Vertices'Address);
+      glBufferData (GL_ARRAY_BUFFER, Vertices'Size / Storage_Unit, Vertices'Address, GL_STATIC_DRAW);
       glEnableVertexAttribArray (0);
       glVertexAttribPointer (0, 3, GL_FLOAT, GL.GL_FALSE, 8 * 4, System'To_Address (0 * 4));
       glEnableVertexAttribArray (1);
@@ -137,41 +128,119 @@ procedure Main is
    end;
 
 
+   procedure Shader_Source (Item : GLuint; Code : String) is
+      use Interfaces.C;
+      C : aliased GLchar_array := To_C (Code);
+      L : aliased GLint := C'Length;
+   begin
+      glShaderSource (Item, 1, C'Access, L'Access);
+   end;
+
+   procedure Shader_Source_File (Item : GLuint; Name : String) is
+      use Ada.Directories;
+      File_Size : Natural := Natural (Size (Name));
+      subtype File_String is String (1 .. File_Size);
+      package File_String_IO is new Ada.Direct_IO (File_String);
+      use File_String_IO;
+      File      : File_Type;
+      Content   : File_String;
+   begin
+      Open (File, In_File, Name);
+      Read (File, Content);
+      Close (File);
+      Shader_Source (Item, Content);
+   end;
+
+   procedure Get_Shader_Info_Log (Item : GLuint; Message : out String; Count : out Natural) is
+      use Interfaces.C;
+      L : aliased GLsizei := 0;
+      T : aliased GLchar_array (1 .. Message'Length);
+   begin
+      glGetShaderInfoLog (GLuint (Item), Message'Length, L'Access, T'Address);
+      To_Ada (T, Message, Count);
+   end;
+
+   function Get_Shader_Info_Log (Item : GLuint) return String is
+      Text : String (1 .. 512);
+      L : Natural := 0;
+   begin
+      Get_Shader_Info_Log (Item, Text, L);
+      return Text (1 .. L);
+   end;
+
+   procedure Get_Program_Info_Log (Item : GLuint; Message : out String; Count : out Natural) is
+      use Interfaces.C;
+      L : aliased GLsizei := 0;
+      T : aliased GLchar_array (1 .. Message'Length);
+   begin
+      glGetProgramInfoLog (GLuint (Item), Message'Length, L'Access, T'Address);
+      To_Ada (T, Message, Count);
+   end;
+
+   function Get_Program_Info_Log (Item : GLuint) return String is
+      Text : String (1 .. 512);
+      L : Natural := 0;
+   begin
+      Get_Program_Info_Log (Item, Text, L);
+      return Text (1 .. L);
+   end;
+
+   function Link_Status (Item : GLuint) return Boolean is
+      use type GLint;
+      S : aliased GLint;
+   begin
+      glGetProgramiv (Item, GL_LINK_STATUS, S'Access);
+      return S = GL_TRUE;
+   end;
+
+   function Compile_Status (Item : GLuint) return Boolean is
+      use type GLint;
+      B : aliased GLint;
+   begin
+      glGetShaderiv (Item, GL_COMPILE_STATUS, B'Access);
+      return B = GL_TRUE;
+   end;
 
    procedure Setup_Shader is
-      use GLT.Shaders;
-      use GLT.Shaders.Programs;
-      P : Program := Create;
+      use Ada.Text_IO;
+      Program : GLuint := glCreateProgram.all;
+      Vertex_Shader : GLuint := glCreateShader (GL_VERTEX_SHADER);
+      Fragment_Shader : GLuint := glCreateShader (GL_FRAGMENT_SHADER);
    begin
-      Attach_From_File (P, Vertex_Shader, "shader.glvs");
-      Attach_From_File (P, Fragment_Shader, "shader.glfs");
-      Link (P);
-      Activate (P);
+      Put_Line ("Setup_Shader");
+      Shader_Source_File (Vertex_Shader, "shader.glvs");
+      Shader_Source_File (Fragment_Shader, "shader.glfs");
+      glCompileShader (Vertex_Shader);
+      glCompileShader (Fragment_Shader);
+      if not Compile_Status (Vertex_Shader) then
+         Put_Line (Get_Shader_Info_Log (Vertex_Shader));
+      end if;
+      if not Compile_Status (Fragment_Shader) then
+         Put_Line (Get_Shader_Info_Log (Fragment_Shader));
+      end if;
+      glAttachShader (Program, Vertex_Shader);
+      glAttachShader (Program, Fragment_Shader);
+      glLinkProgram (Program);
+      if not Link_Status (Program) then
+         Put_Line (Get_Program_Info_Log (Fragment_Shader));
+      end if;
+      glUseProgram (Program);
    end;
 
    Window : GLFWwindow;
+   Array_Buffer : aliased GLuint;
+   Vertex_Array : aliased GLuint;
 
 begin
 
    Start_Window (Window);
-
-   declare
-      use GLT.Buffers;
-      B : Buffer := Generate;
-   begin
-      Setup_Shader;
-      Bind (Array_Buffer_Target, B);
-      Setup_Vertices;
-   end;
-
-
+   Setup_Shader;
+   glGenBuffers (1, Array_Buffer'Access);
+   glGenVertexArrays (1, Vertex_Array'Access);
+   glBindBuffer (GL_ARRAY_BUFFER, Array_Buffer);
+   glBindVertexArray (Vertex_Array);
+   Setup_Vertices;
    Read_Image ("lena512.bmp");
-
-
-
-
    Main_Loop (Window);
-
-
 
 end;

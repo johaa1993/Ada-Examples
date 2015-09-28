@@ -23,12 +23,11 @@ procedure Main is
 
 
    procedure Main_Loop (W : Window) is
-
    begin
       loop
          Pull_Events;
          glClear (GL_COLOR_BUFFER_BIT);
-         Swap (W);
+         Swap_Buffers (W);
          delay 0.1;
          exit when Closing (W);
       end loop;
@@ -40,7 +39,7 @@ procedure Main is
 begin
 
    Setup_OpenGL;
-   W := Create (200, 200);
+   W := Create (200, 200, "Title");
    Main_Loop (W);
 
 

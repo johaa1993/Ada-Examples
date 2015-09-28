@@ -57,7 +57,7 @@ package GL is
    GL_TEXTURE_2D           : constant := 16#DE1#;
    GL_RGBA                 : constant := 16#1908#;
    GL_UNSIGNED_BYTE        : constant := 16#1401#;
-
+   GL_MAX_UNIFORM_LOCATIONS: constant := 1024;
 
    type Access_glCreateProgram is access function return GLuint;
    type Access_glLinkProgram is access procedure (program : GLuint);

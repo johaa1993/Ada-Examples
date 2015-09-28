@@ -4,20 +4,20 @@ package body GLV.Windows is
 
    use Interfaces.C;
 
-   function Create (Width, Height : Natural) return Window is
-      API : GLFWWindow := glfwCreateWindow (int(Width), int(Height), To_C ("No Title"));
+   function Create (Width, Height : Natural; Title : String) return Window is
+      W : GLFWWindow := glfwCreateWindow (int(Width), int(Height), To_C (Title));
    begin
-      return Window'(API => API);
+      return Window'(W => W);
    end;
 
-   procedure Current (W : Window) is
+   procedure Make_Context_Current (W : Window) is
    begin
-      glfwMakeContextCurrent (W.API);
+      glfwMakeContextCurrent (W.W);
    end;
 
-   function Closing (W : Window) return Boolean is
+   function Closing (W : Window; Flag : Integer := 1) return Boolean is
    begin
-      return glfwWindowShouldClose (W.API) = 1;
+      return glfwWindowShouldClose (W.W) = int(Flag);
    end;
 
    procedure Pull_Events is
@@ -25,14 +25,14 @@ package body GLV.Windows is
       glfwPollEvents;
    end;
 
-   procedure Swap (W : Window) is
+   procedure Swap_Buffers (W : Window) is
    begin
-      glfwSwapBuffers (W.API);
+      glfwSwapBuffers (W.W);
    end;
 
    procedure Destroy (W : Window) is
    begin
-      glfwDestroyWindow (W.API);
+      glfwDestroyWindow (W.W);
    end;
 
 end;

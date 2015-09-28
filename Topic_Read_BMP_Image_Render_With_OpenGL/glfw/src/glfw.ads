@@ -103,27 +103,21 @@ package GLFW is
 
 
    GLFW_VISIBLE : constant := 16#00020004#;
-   GL_FALSE : constant := 0;
-   GL_TRUE : constant := 1;
-
-   RELEASE : constant := 0;
-   PRESS   : constant := 1;
-
-
+   GLFW_FALSE : constant := 0;
+   GLFW_TRUE : constant := 1;
+   GLFW_RELEASE : constant := 0;
+   GLFW_PRESS   : constant := 1;
    GLFW_KEY_SPACE : constant := 32;
    GLFW_KEY_A : constant := 65;
    GLFW_KEY_B : constant := 66;
    GLFW_KEY_D : constant := 68;
    GLFW_KEY_S : constant := 83;
    GLFW_KEY_W : constant := 87;
-
    GLFW_KEY_RIGHT : constant := 262;
    GLFW_KEY_LEFT : constant := 263;
    GLFW_KEY_DOWN : constant := 264;
    GLFW_KEY_UP : constant := 265;
-
    GLFW_KEY_LEFT_CONTROL : constant := 341;
-
 
 
 end GLFW;

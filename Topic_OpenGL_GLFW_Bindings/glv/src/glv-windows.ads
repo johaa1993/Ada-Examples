@@ -4,11 +4,11 @@ package GLV.Windows is
 
    type Window is private;
 
-   procedure Current (W : Window);
-   function Create (Width, Height : Natural) return Window;
-   function Closing (W : Window) return Boolean;
+   procedure Make_Context_Current (W : Window);
+   function Create (Width, Height : Natural; Title : String) return Window;
+   function Closing (W : Window; Flag : Integer := 1) return Boolean;
    procedure Pull_Events;
-   procedure Swap (W : Window);
+   procedure Swap_Buffers (W : Window);
    procedure Destroy (W : Window);
 
 private
@@ -16,7 +16,7 @@ private
    use GLFW;
 
    type Window is record
-      API : GLFWWindow;
+      W : GLFWWindow;
    end record;
 
 end;
