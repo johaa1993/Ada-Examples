@@ -4,7 +4,7 @@ package GLV.Shaders is
 
    type Kind is (Fragment_Shader, Vertex_Shader);
 
-   type Shader (<>) is limited private;
+   type Shader is private;
 
    function Valid (Item : Shader) return Boolean;
 

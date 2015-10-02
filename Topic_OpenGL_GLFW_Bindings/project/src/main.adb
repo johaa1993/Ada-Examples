@@ -21,7 +21,6 @@ procedure Main is
    use GL;
    use GLV.Windows;
 
-
    procedure Main_Loop (W : Window) is
    begin
       loop
@@ -33,11 +32,12 @@ procedure Main is
       end loop;
    end;
 
-
    W : Window;
+   A : GLV.Vertex_Arrays.Vertex_Array := GLV.Vertex_Arrays.Generate;
 
 begin
 
+   --GLV.Vertex_Arrays.Valid (A);
    Setup_OpenGL;
    W := Create (200, 200, "Title");
    Main_Loop (W);

@@ -2,16 +2,20 @@ with GL; use GL;
 
 package GLV.Vertex_Arrays is
 
-   -- The name "Vertex-array" is
-   type Vertex_Array (<>) is limited private;
+   type Vertex_Array is private;
 
-   -- Checks if the vertex array is bound.
+   --glIsVertexArray.
+   --Returns true if item is currently the name of a renderbuffer object.
+   --Returns false if renderbuffer is zero.
+   --Returns false if item is not the name of a renderbuffer object.
+   --Returns false if an error occurs.
+   --Returns false if item is returned by glGenVertexArrays and has not been bound by glBindVertexArray.
    function Valid (Item : Vertex_Array) return Boolean;
 
-   -- Returns unbound unique vertex array.
+   --glGenVertexArrays.
    function Generate return Vertex_Array;
 
-   -- Vertex array should be bounded after the binding.
+   --glBindVertexArray.
    procedure Bind (Item : Vertex_Array) with
    Post => Valid (Item);
 

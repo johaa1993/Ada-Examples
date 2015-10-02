@@ -2,7 +2,9 @@ with GL; use GL;
 
 package GLV.Colors is
 
-   type Color_RGBA_ubyte is array (1 .. 4) of GLubyte;
-   type Color_RGBA_float is array (1 .. 4) of GLfloat;
+   type RGBA is (Red, Green, Blue, Alpha);
+
+   type RGBA_ubyte is array (RGBA) of GLubyte;
+   type RGBA_float is array (RGBA) of GLfloat;
 
 end;

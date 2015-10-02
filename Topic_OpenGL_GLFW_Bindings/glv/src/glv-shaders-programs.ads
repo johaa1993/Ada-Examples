@@ -2,7 +2,7 @@ with GL; use GL;
 
 package GLV.Shaders.Programs is
 
-   type Program (<>) is limited private;
+   type Program is private;
 
    function Create return Program;
 
