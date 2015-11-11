@@ -4,65 +4,34 @@ with Ada.Direct_IO;
 with GNAT.OS_Lib;
 with Ada.Directories;
 
---  with Bounded_Strings;
---  use Bounded_Strings;
---  
---  with Separated_String_Index;
-with Separated_String_Next;
---  with Separated_String_Jump;
---  with Separated_Strings;
+with Ada.Environment_Variables;
+with Ada.Command_Line.Environment;
 
 procedure Main is
    
-   function Separated_String_Next (Str : String; Sep : Character; P : in out Positive) return String is
-      A : Positive := P;
-      B : Positive;
+   use Ada.Text_IO;
+   use Ada.Integer_Text_IO;
+   
+   
+   procedure Next_Path (Item : String; P : in out Natural) is
    begin
-      while A <= Str'Last and then Str(A) = Sep loop
-         A := A + 1;
-      end loop;
-      P := A;
-      while P <= Str'Last and then Str(P) /= Sep loop
-         P := P + 1;
-      end loop;
-      B := P - 1;
-      while P <= Str'Last and then Str(P) = Sep loop
-         P := P + 1;
-      end loop;
-      return Str(A .. B);
-   end;
-   
-   type Seperated_String (Str : access String; Separator : Character) is record
-      Pointer : Positive := Str'First;
-   end record;
-   
-   function Separated_String_Next (Sep_Str : in out Seperated_String) return String is
-   begin
-      return Separated_String_Next (Sep_Str.Str.all, Sep_Str.Separator, Sep_Str.Pointer);
-   end;
-   
-   
-   procedure Controller is
-      use Ada.Text_IO;
-      Str : aliased String (1 .. 100);
-      Last : Natural;
-      Sep_Str : Seperated_String := (Str'Unchecked_Access, ',', Str'First);
-   begin
-      loop
-         --Get_Line (Line);
-         --Put_Line (Line);
-         null;
+      for I in Item'Range loop
+         exit when Item (I) = ';';
       end loop;
    end;
 
-   
-   
-   
    
 begin
 
+   --Put_Line (Ada.Environment_Variables.Value ("PATH"));
+   
 
-   null;
+   for I in 1 .. Ada.Command_Line.Environment.Environment_Count loop
+      Put (I, 4);
+      Put ("  ");
+      Put (Ada.Command_Line.Environment.Environment_Value (I));
+      New_Line;
+   end loop;
    
    
 end;
